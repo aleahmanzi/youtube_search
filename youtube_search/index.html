@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+
+<style>
+.hero_wrap { text-align: center; font-size: 25px; color: red; }
+.search_wrap { outline: 0px solid black; text-align: center; padding-top: 25px; }
+.search_results { outline: 1px solid blue; height: 500px; }
+.result_list { outline: 1px solid red; height: 125px; width: 125px; margin: 10px; }
+</style>
+
+<script>
+$(function(){
+
+ var searchValue = "";
+
+ $('#button').on("click", function(event){
+    var searchValue = $('#query').val();
+    console.log(searchValue);
+    getRequest(searchValue);
+}); /// - get user's search value
+
+ function getRequest(searchTerm){
+  var test_url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + searchValue +'&key=AIzaSyCwAuKBFHUSnSDMRcoO8SbJHLPGRPlLpGw'
+
+  $.getJSON(test_url, function(data){
+   console.log(data);
+  }); /// - get request and callback function
+}; 
+  
+  function showResults(results){
+   var html = "";
+   $.each(results, function(index,value){
+    html += '<p>' + value.Title + '</p>';
+    console.log(value.Title);
+  });
+  $('.result_list').html(html);
+  }
+   
+});
+
+</script>
+
+<body>
+ <header>
+  <div class="hero_wrap">YouTube Search</div><!-- . hero_wrap - -->	
+ </header>			
+ <form class="search_wrap">
+  <input type="text" id="query"/>
+  <input type="submit" id="button"/>
+  <div class="search_results">
+  	<div class="result_list"></div>
+  </div><!-- . search_results - -->
+ </form><!-- . search_wrap - -->
+</body>
+</html>
